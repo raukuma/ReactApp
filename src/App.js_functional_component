@@ -1,0 +1,50 @@
+import React, { Component,useState } from 'react';
+import './App.css';
+import Person from './Person/Person';
+const app = () => {
+  //Using Destructure
+  const [personState,setPersonState] =useState({
+    person :[
+      {name:'Raushan',age:30},
+      {name:'Max',age:12},
+      {name:'Messi',age:20},
+      {name:'Neymar',age:29},
+      ],
+   
+  });
+  const [otherState,setOtherState] =useState('Some Other Value');
+ console.log(personState,otherState);
+  const switchNameHandler = () =>
+  {
+    //console.log("Was Clicked");
+   // DO not this we can't mutate this.state.person[0].name='Raushan';
+   setPersonState({
+    person :[
+      {name:'Raushan1233',age:30},
+      {name:'Max',age:12},
+      {name:'Messi',age:24},
+      {name:'Neymar',age:24},
+      ],
+      otherState : personState.otherState
+   })
+   
+  }
+ 
+    return (
+      <div className="App">
+        <h1>Hi, I am a React App</h1>
+        <p>This is really working!</p>
+        <Person name={personState.person[0].name} age={personState.person[0].age} />
+        <button onClick= {switchNameHandler}>Click Me</button>
+        <Person name={personState.person[1].name}  age={personState.person[1].age} />
+        <Person name={personState.person[2].name}  age={personState.person[2].age} >Hobbies: play pubg</Person>
+        <Person name={personState.person[3].name}  age={personState.person[3].age} />
+        
+      </div>
+    );
+    //return React.createElement('div',{className:'App'}, React.createElement('h1',null,'I am a React App'));
+  }
+
+
+export default app;
+

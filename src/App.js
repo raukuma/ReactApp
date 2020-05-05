@@ -1,69 +1,126 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import styled from 'styled-components';
+const StyleButton = styled.button`
+      background-color: ${props=>props.alt?'red':'green'};
+      color:white;
+      font:inherit;
+      border:1px solid blue;
+      padding:8px;
+      cursor:pointer;
+
+      &:hover{
+        background-color: ${props=>props.alt?'salamon':'lightgreen'};;
+        color: black;
+      }
+`;
 class App extends Component {
   state = {
-    person :[
-            {name:'Raushan',age:30},
-            {name:'Max',age:12},
-            {name:'Messi',age:20},
-            {name:'Neymar',age:29},
+    persons :[
+            {id:'101',name:'Raushan',age:30},
+            {id:'102',name:'Max',age:12},
+            {id:'103',name:'Messi',age:20},
+            {id:'104',name:'Neymar',age:29},
             ],
-    otherState : 'Some Other Value'        
+    otherState : 'Some Other Value',
+    showPersons:false       
 
   }
 
-  switchNameHandler = (newName) =>
+ 
+  nameChangeHandler = (event,id) =>
   {
+    const personIndex =this.state.persons.findIndex(
+      p=>{
+        return p.id===id;
+      }
+    );
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex]=person;
+   //const person =Object.assign({},this.state.persons[personIndex]);
     //console.log("Was Clicked");
    // DO not this we can't mutate this.state.person[0].name='Raushan';
-   this.setState({
-    person :[
-      {name:newName,age:30},
-      {name:'Max',age:12},
-      {name:'Messi',age:24},
-      {name:'Neymar',age:24},
-      ]
-   })
+   this.setState({persons:persons})
   }
-  nameChangeHandler = (event) =>
-  {
-    //console.log("Was Clicked");
-   // DO not this we can't mutate this.state.person[0].name='Raushan';
+
+  togglePersonsHandler = ()=>{
+  const doesShow = this.state.showPersons;
    this.setState({
-    person :[
-      {name:'Raushan1233',age:30},
-      {name:'Max',age:12},
-      {name:event.target.value,age:24},
-      {name:'Neymar',age:24},
-      ]
-   })
+    showPersons:!doesShow
+   });
   }
+  deletePersonHandler =(personIndex)=>{
+    //const persons =this.state.persons.slice();
+    //Using Spread operator
+    const persons =[...this.state.persons];
+    persons.splice(personIndex,1)
+    this.setState({persons:persons})
+  }
+
   render() {
+
+    const style ={
+      backgroundColor: 'green',
+      color:'white',
+      font:'inherit',
+      border:'1px solid blue',
+      padding:'8px',
+      cursor:'pointer',
+      ':hover':{
+        backgroundColor:'Lightgreen',
+        color:'black'
+      }
+    };
+    let persons =null;
+    if(this.state.showPersons){
+      persons = (
+        <div>
+        {
+        this.state.persons.map((person,index) =>{
+        return <Person 
+        click={()=>this.deletePersonHandler(index)}
+        name={person.name}
+        age ={person.age}
+        key={person.id} 
+         changed={(event)=>{this.nameChangeHandler(event,person.id)}}/>
+        }
+        )}
+       </div>
+      );
+      /*
+      style.backgroundColor='red';
+      style[':hover'] = {
+        backgroundColor:'salmon',
+        color: 'black'
+      }
+      */
+    }
+     const classes = [];
+     if(this.state.persons.length<=2)
+     {
+      classes.push('red');//classes=['red']
+     }
+     if(this.state.persons.length<=1){
+      classes.push('bold');////classes=['red','bold']
+     }
+    
     return (
+     
       <div className="App"> 
         <h1>Hi, I am a React App</h1>
-        <p>This is really working!</p>
-        //Pass Variable Values to method 1st way
-        <Person 
-        name={this.state.person[0].name}
-        age={this.state.person[0].age} />
-        <button onClick= {()=> this.switchNameHandler("Bagi!!!!!!!")}>Click Me</button>
-        <Person 
-        name={this.state.person[1].name}
-        age={this.state.person[1].age} />
-        //Pass Variable Values to method 2st way
-        <Person 
-        name={this.state.person[2].name}
-        age={this.state.person[2].age} 
-        click={this.switchNameHandler.bind(this,"KAKA")}
-        changed={this.nameChangeHandler}>
-        Hobbies: play pubg</Person>
-        <Person
-        name={this.state.person[3].name}
-        age={this.state.person[3].age} />
-        
+        <p className={classes.join(' ')}>This is really working!</p>
+       
+       
+        <StyleButton alt={this.state.showPersons} onClick= {this.togglePersonsHandler}>Toggle Person</StyleButton>
+       {persons}
+     
       </div>
+    
     );
     //return React.createElement('div',{className:'App'}, React.createElement('h1',null,'I am a React App'));
   }

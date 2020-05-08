@@ -2,16 +2,18 @@
     width: 60%;
     margin: 18px auto;
     border: 1px solid #eee;
-    box-shadow: 2px 2px 3px aqua;
+    box-shadow: 2px 2px 3px rgb(255, 0, 234);
     padding: 16px;
     text-align: center;
 }
 
 
-/*
+
 @media(min-width:500px){
     .Person{
         width: 450px;
     }
 }
-*/
+
+
+

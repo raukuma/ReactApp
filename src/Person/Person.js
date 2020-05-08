@@ -1,31 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
-//import './Person.css';
 
-const StyleDiv = styled.div`
-                            width: 60%;
-                            margin: 18px auto;
-                            border: 1px solid #eee;
-                            box-shadow: 2px 2px 3px aqua;
-                            padding: 16px;
-                            text-align: center;
+import classes from './Person.css';
 
-                            @media(min-width:500px){
-                                width:450px;
-                            }
-                            `;
+
 
    
 const person = (props) => {
     
-    return ( <StyleDiv className = "Person" >
+    return ( <div className = {classes.Person} >
         <p onClick = { props.click } > I am { props.name }!with age { props.age } years old </p> 
         <p> { props.children } </p> <
         input type = "text"
         onChange = { props.changed }
         value = { props.name }
         /> 
-        </StyleDiv>
+        </div>
     )
 };
 

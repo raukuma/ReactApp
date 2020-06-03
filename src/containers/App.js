@@ -5,6 +5,11 @@ import Cockpit from '../components/Cockpit/Cockpit'
 
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    console.log('[App.js] Constructor ');
+  }
   state = {
     persons :[
       {id:'101', name:'Raushan', age:30},
@@ -12,8 +17,19 @@ class App extends Component {
       {id:'103', name:'Messi', age:20},
       {id:'104', name:'Neymar', age:29},
     ],
-    showPersons:false       
-  };
+    showPersons:false     
+  }
+  static getDerivedStateFromProps(props,state){
+    console.log('[App.js] getDerivedStateFromProps',props);
+    return state;
+  }
+ 
+  componentWillMount(){
+    console.log('[App.js] componentWillMount')
+  }
+  componentDidMount(){
+    console.log('[App.js] componentDidMount');
+  }
   nameChangeHandler = (event, id) => {
     const personIndex =this.state.persons.findIndex(
       p => p.id===id
@@ -34,6 +50,7 @@ class App extends Component {
     this.setState({persons:persons})
   };
   render() {
+    console.log('[App.js] rendering');
     let persons =null;
    
     if (this.state.showPersons) {
@@ -45,12 +62,22 @@ class App extends Component {
     
     return (
       <div className={classes.App}> 
-        <Cockpit 
+        <Cockpit
+        title={this.props.appTitle} 
         showPersons={this.state.showPersons} 
         persons={this.state.persons} 
         toggle ={this.togglePersonsHandler}/>
         {persons}
+        <div style={{ textAlign: "left", whiteSpace: "nowrap",display:"flex" }}>
+        <div style={{ display: "inline" }}>
+            <div>hello</div>
+        </div>
+        { }
+        <div style={{ display: "inline" }}> secondDiv </div>
+        <div style={{ display: "inline" }}> thirdDiv </div>
+    </div>
       </div>
+      
     );
   }
 }
